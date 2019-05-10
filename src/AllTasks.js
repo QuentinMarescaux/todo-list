@@ -15,7 +15,7 @@ class AllTasks extends Component {
 	componentDidMount() {
 		console.log("On charge les tasks !");
 
-		const tasks = [
+		const tasksToStore = [
 			{
 				id: 1,
 				title: "premiere liste",
@@ -32,10 +32,22 @@ class AllTasks extends Component {
 			}
 		];
 
-		ls.set("tasks", tasks);
+		const totoToStore = {
+			id: 2,
+			title: "deuxieme liste",
+			description: "",
+			startTime: "12/05",
+			endTime: "20/05"
+		};
+
+		ls.clear();
+		ls.set("tasks", tasksToStore);
+		ls.set("toto", totoToStore);
 
 		var tasks = ls.get("tasks") || null;
 		console.log(tasks);
+		var toto = ls.get("toto") || null;
+		console.log(toto);
 		this.setState({ isLoaded: true, tasks: tasks });
 		// fetch("http://localhost:3000/api/tasks")
 		// 	.then(res => res.json())
@@ -72,10 +84,10 @@ class AllTasks extends Component {
 							<React.Fragment>
 								<Task
 									id={task.id}
-									firstname={task.firstName}
-									lastname={task.lastName}
-									phone={task.phoneNumber}
-									email={task.mail}
+									title={task.title}
+									description={task.description}
+									startTime={task.startTime}
+									endTime={task.endTime}
 								/>
 								<br />
 							</React.Fragment>
