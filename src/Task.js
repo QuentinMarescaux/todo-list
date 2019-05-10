@@ -12,7 +12,6 @@ const taskPropTypes = {
 class Task extends Component {
 	constructor(props) {
 		super(props);
-		console.log(props);
 		this.state = {
 			id: props.id,
 			title: props.title,

@@ -12,7 +12,6 @@ import ls from "local-storage";
 const enhance = compose(
 	lifecycle({
 		componentDidMount() {
-			console.log("On charge les tasks");
 			var tasks = ls.get("tasks") || "";
 			this.setState({ isLoaded: true, tasks: tasks });
 		}

@@ -1,6 +1,35 @@
 import React, { Component } from "react";
-import Task from "./Task";
+import { string, bool, arrayOf, shape } from "prop-types";
 import ls from "local-storage";
+// import Task from "./Task";
+import TaskHOC from "./Task.container";
+
+const allTasksPropTypes = {
+	allTasks: arrayOf(
+		shape({
+			title: string.isRequired,
+			description: string.isRequired,
+			startTime: string.isRequired,
+			endTime: string.isRequired
+		})
+	)
+};
+
+// const modifyPropsNames = data => {
+// 	const arrayTemp = [];
+
+// 	data.forEach(c => {
+// 		const { id, firstName, lastName, phoneNumber, mail } = c;
+// 		arrayTemp.push({
+// 			id,
+// 			firstname: firstName,
+// 			lastname: lastName,
+// 			phone: phoneNumber,
+// 			email: mail
+// 		});
+// 	});
+// 	return arrayTemp;
+// };
 
 class AllTasks extends Component {
 	constructor(props) {
@@ -13,8 +42,6 @@ class AllTasks extends Component {
 	}
 
 	componentDidMount() {
-		console.log("On charge les tasks !");
-
 		const tasksToStore = [
 			{
 				id: 1,
@@ -29,45 +56,21 @@ class AllTasks extends Component {
 				description: "",
 				startTime: "12/05",
 				endTime: "20/05"
+			},
+			{
+				id: 3,
+				title: "Toto tutu",
+				description: "Lorem Ipsum",
+				startTime: "12/05",
+				endTime: "20/05"
 			}
 		];
 
-		const totoToStore = {
-			id: 2,
-			title: "deuxieme liste",
-			description: "",
-			startTime: "12/05",
-			endTime: "20/05"
-		};
-
 		ls.clear();
 		ls.set("tasks", tasksToStore);
-		ls.set("toto", totoToStore);
 
 		var tasks = ls.get("tasks") || null;
-		console.log(tasks);
-		var toto = ls.get("toto") || null;
-		console.log(toto);
 		this.setState({ isLoaded: true, tasks: tasks });
-		// fetch("http://localhost:3000/api/tasks")
-		// 	.then(res => res.json())
-		// 	.then(
-		// 		result => {
-		// 			this.setState({
-		// 				isLoaded: true,
-		// 				tasks: result.data
-		// 			});
-		// 		},
-		// 		// Note: it's important to handle errors here
-		// 		// instead of a catch() block so that we don't swallow
-		// 		// exceptions from actual bugs in components.
-		// 		error => {
-		// 			this.setState({
-		// 				isLoaded: true,
-		// 				error
-		// 			});
-		// 		}
-		// 	);
 	}
 
 	render() {
@@ -76,29 +79,30 @@ class AllTasks extends Component {
 			return <div>Error: {error.message}</div>;
 		} else if (!isLoaded) {
 			return <div>Loading...</div>;
+		} else if (tasks == null) {
+			return <p>Aucune tache existante</p>;
 		} else {
-			if (tasks) {
-				return (
-					<ul>
-						{tasks.map(task => (
-							<React.Fragment>
-								<Task
-									id={task.id}
-									title={task.title}
-									description={task.description}
-									startTime={task.startTime}
-									endTime={task.endTime}
-								/>
-								<br />
-							</React.Fragment>
-						))}
-					</ul>
-				);
-			} else {
-				return <p>Aucune tache existante</p>;
-			}
+			return (
+				<div className="AllTasks">
+					{tasks.map(task => (
+						<React.Fragment>
+							{/* <Task
+								id={task.id}
+								title={task.title}
+								description={task.description}
+								startTime={task.startTime}
+								endTime={task.endTime}
+							/> */}
+							<TaskHOC {...task} />
+							<br />
+						</React.Fragment>
+					))}
+				</div>
+			);
 		}
 	}
 }
+
+//AllTasks.propTypes = allTasksPropTypes;
 
 export default AllTasks;

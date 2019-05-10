@@ -9,17 +9,12 @@ class App extends Component {
 			<div className="App">
 				<header className="App-header">
 					{/* <img src={logo} className="App-logo" alt="logo" /> */}
-					<a
-						className="App-link"
-						href="#"
-						// target="_blank"
-						rel="noopener noreferrer"
-					>
+					<a className="App-link" href="#" rel="noopener noreferrer">
 						Home
 					</a>
 				</header>
 				<main className="App-main">
-					<h1>ToDo List</h1>
+					<img src={process.env.PUBLIC_URL + "/img/tdlBig.jpg"} />
 					<AllTasks />
 				</main>
 			</div>
